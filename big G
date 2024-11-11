@@ -1,0 +1,79 @@
+#include <iostream>
+
+using namespace std;
+
+int mx[102][102];
+int vis[102][102];
+
+int dx[4]= {-1,1,0,0};
+int dy[4]= {0,0,-1,1};
+
+int  row,col;
+
+string s;
+
+void dfs(int x,int y, int c)
+{
+
+
+    for(int i=0; i<4; i++)
+    {
+        int xx =x+dx[i];
+        int yy =y+dy[i];
+
+        if(xx>0 && xx <=row && yy>0 && yy <=col)
+        {
+
+            if(mx[xx][yy] ==1 && vis[xx][yy] == 0)
+            {
+
+                vis[xx][yy] = c;
+
+                dfs(xx,yy,c);
+            }
+        }
+    }
+}
+
+
+int main()
+{
+
+    char ch;
+    int cs =0;
+    while(cin>>row>>col)
+    {
+        cs+=1;
+        for(int i=1; i<=row; i++)
+        {
+            for(int j=1; j<=col; j++)
+            {
+                cin>>ch;
+                if(ch=='-')
+                {
+                    mx[i][j] = 1;
+                }else{
+                    mx[i][j] = 0;
+                }
+                vis[i][j] =0;
+            }
+        }
+        int c =0;
+
+        for(int i=1; i<=row; i++)
+        {
+            for(int j=1; j<=col; j++)
+            {
+                if(vis[i][j] ==0 && mx[i][j]==1)
+                {
+                    c+=1;
+                    vis[i][j]  =c;
+                    dfs(i,j,c);
+
+                }
+            }
+        }
+        cout <<"Case "<<cs<<": "<<c<<endl;
+    }
+    return 0;
+}
